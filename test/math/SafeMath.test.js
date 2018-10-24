@@ -82,6 +82,31 @@ contract('SafeMath', function () {
 
       await shouldFail.reverting(this.safeMath.div(a, b));
     });
+
+    //TODO: write edge case test for
+
+    //numbers that are not divisible evenly
+    it('divides odd numbers correctly', async function () {
+      const a = new BigNumber(1);
+      const b = new BigNumber(2);
+
+      (await this.safeMath.div(a, b)).should.be.bignumber.not.equal(a.div(b));
+    });
+
+    //first arg being 0
+    it('zero divided by number should fail', async function () {
+      const a = new BigNumber(0);
+      const b = new BigNumber(1);
+
+      await shouldFail.reverting(this.safeMath.sub(a, b));
+    });
+    //second arg being 0
+    it('divided by zero should fail', async function () {
+      const a = new BigNumber(1);
+      const b = new BigNumber(0);
+
+      (await this.safeMath.div(a, b)).should.not.be.finite;
+    });
   });
 
   describe('mod', function () {
